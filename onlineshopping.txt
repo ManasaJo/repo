@@ -1,0 +1,132 @@
+ use onlineshoppingportal
+switched to db onlineshoppingportal
+> db.createCollection("Customer");
+
+db.customer.insertMany([{
+customername:"a",
+customeremail:"a@gmail.com",
+customermobno:"1234567890",
+customerwallet:"125",
+Address:{
+customercity:"Delhi",
+customerpincode:"110001",
+customeraddress:"xyz123"}
+},
+{
+customername:"b",
+customeremail:"b@gmail.com",
+customermobno:"9254569891",
+customerwallet:"25",
+Address:{
+customercity:"Delhi",
+customerpincode:"111111",
+customeraddress:"adc456"}
+},
+{
+customername:"c",
+customeremail:"c@gmail.com",
+customermobno:"9834567890",
+customerwallet:"122",
+Address:{
+customercity:"Hyd",
+customerpincode:"500062",
+customeraddress:"qwerty123"}
+},
+{
+customername:"d",
+customeremail:"d@gmail.com",
+customermobno:"8834567890",
+customerwallet:"102",
+Address:{
+customercity:"ahmedabad",
+customerpincode:"600012",
+customeraddress:"qwe345"}
+}
+])
+>db.createCollection("Orders");
+db.Orders.insertMany([{
+orderstatus:"pending",
+orderamount:"123"},
+{
+orderstatus:"pending",
+orderamount:"1200"},
+{
+orderstatus:"delivered",
+orederamount:"300"}
+]
+)
+>db.createCollections("Vendors");
+db.Vendors.insertMany([{
+vendorname:"abc",
+vendoremail:"abc@gmail.com",
+vendormobno:"1234561234",
+vendorwallet:"2000"},
+{
+vendorname:"xyz",
+vendoremail:"xyz@gmail.com",
+vendormobno:"8934561234",
+vendorwallet:"200"}])
+
+>db.createCollection("Products");
+db.Products.insertMany([{
+productname:"book",
+productcategory:"xyz",
+productprice:"300"},
+{
+productname:"book",
+productcategory:"abc",
+productprice:"350"},
+{
+productname:"bag",
+productcategory:"xyz",
+productprice:"900"}])
+
+
+
+
+find all customers whose city is 'Delhi'
+==============================================
+
+db.customer.find({"Address.customercity":{$eq:"Delhi"}},{customername:1, "Address.customercity":1}).pretty();
+
+{
+        "_id" : ObjectId("632d602dd225e4f5f711c28e"),
+        "customername" : "a",
+        "Address" : {
+                "customercity" : "Delhi"
+        }
+}
+{
+        "_id" : ObjectId("632d602dd225e4f5f711c28f"),
+        "customername" : "b",
+        "Address" : {
+                "customercity" : "Delhi"
+        }
+}
+
+=======================================================================
+find productname,price from products
+==========================================================================
+> db.Products.find({},{productname:1,productprice:1,_id:0}).pretty();
+{ "productname" : "book", "productprice" : "300" }
+{ "productname" : "book", "productprice" : "350" }
+{ "productname" : "bag", "productprice" : "900" }
+
+=============================================================================
+find orders where orderstatus is 'pending'
+================================================================================
+> db.Orders.find({orderstatus:"pending"},{_id:0}).pretty();
+{ "orderstatus" : "pending", "orderamount" : "123" }
+{ "orderstatus" : "pending", "orderamount" : "1200" }
+========================================================================
+find all addresses whose pincode is 600012
+=====================================================================
+> db.customer.find({"Address.customerpincode":"600012"},{Address:1}).pretty();
+{
+        "_id" : ObjectId("632d688ad225e4f5f711c299"),
+        "Address" : {
+                "customercity" : "ahmedabad",
+                "customerpincode" : "600012",
+                "customeraddress" : "qwe345"
+        }
+}
